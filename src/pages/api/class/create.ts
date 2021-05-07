@@ -1,11 +1,12 @@
 import { connectToDatabase } from "../../../utils/mongodb";
 import withJoi from "../../../middleware/withJoi";
 import Joi from "joi";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default withJoi(
-	async function handler(req, res) {
+	async function handler(req: NextApiRequest, res: NextApiResponse) {
 		const { db } = await connectToDatabase();
-		db.collection("classes").insertOne({
+		await db.collection("classes").insertOne({
 			name: req.body.name,
 			description: req.body.description,
 			created_at: Date.now()
