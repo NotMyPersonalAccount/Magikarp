@@ -1,0 +1,20 @@
+{
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"extends": ["eslint:recommended", "react-app", "prettier"],
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"sourceType": "module"
+	},
+	"plugins": ["react"],
+	"rules": {
+		"linebreak-style": "off",
+		"quotes": ["error", "double"],
+		"semi": ["error", "always"]
+	}
+}
