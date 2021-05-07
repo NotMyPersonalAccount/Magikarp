@@ -7,12 +7,6 @@ if (!MONGODB_URI) {
 	);
 }
 
-if (!MONGODB_DB) {
-	throw new Error(
-		"Please define the MONGODB_DB environment variable inside .env.local"
-	);
-}
-
 let cached = { conn: null, promise: null };
 
 export async function connectToDatabase(): Promise<{
@@ -28,7 +22,7 @@ export async function connectToDatabase(): Promise<{
 		}).then(client => {
 			return {
 				client,
-				db: client.db(MONGODB_DB)
+				db: client.db()
 			};
 		});
 	}

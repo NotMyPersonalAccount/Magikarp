@@ -17,26 +17,23 @@ export default function Class(props: ClassProp): ReactElement {
 					.format("YYYY-MM-DD HH:mm:ss")}
 			</p>
 		</>
-	); //TODO
+	); //TODO: Class page
 }
 
 export const getServerSideProps: GetServerSideProps<
 	object,
 	{ id: string }
 > = async ({ params }) => {
-	if (params.id.length !== 24) {
+	if (params.id.length !== 24)
 		throw new Error("IDs must be 24 characters in length");
-	}
 
 	const { db } = await connectToDatabase();
 	const _class = await db
 		.collection("classes")
 		.findOne({ _id: new ObjectID(params.id) }); //class is a reserved keyword
 
-	if (_class === null) {
-		return { notFound: true };
-	}
+	if (_class === null) return { notFound: true };
 
-	_class._id = _class._id.toString(); //TODO: webpack does not like optional chaining
+	_class._id = _class._id.toString();
 	return { props: { class: _class } };
 };
