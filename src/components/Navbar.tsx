@@ -17,7 +17,7 @@ export default function Navbar(): ReactElement {
 			) : (
 				<button
 					className="bg-red-500 hover:bg-red-600 focus:outline-none rounded-xl shadow-lg px-4 py-2 ml-auto mr-4 my-2 text-white text-bold"
-					onClick={() => signIn()}>
+					onClick={() => signIn("google")}>
 					Login
 				</button>
 			)}
