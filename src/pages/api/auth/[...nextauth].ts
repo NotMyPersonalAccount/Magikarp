@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
 import Providers from "next-auth/providers";
 
 export default NextAuth({
@@ -8,5 +8,10 @@ export default NextAuth({
 			clientSecret: process.env.GOOGLE_SECRET
 		})
 	],
-	database: process.env.MONGODB_URI
+	database: process.env.MONGODB_URI,
+	callbacks: {
+		async session(session: Session, user: User) {
+			return { user, session };
+		}
+	}
 });
