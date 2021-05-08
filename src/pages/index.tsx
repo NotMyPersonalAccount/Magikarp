@@ -18,9 +18,11 @@ export default function Home(): ReactElement {
 					classmates & teachers. All within one platform. For free. Created by a
 					moron with terrible design choices.
 				</p>
-				<button className="bg-red-500 hover:bg-red-600 focus:outline-none rounded-xl shadow-lg my-2 px-4 py-2 text-white text-bold">
-					<Link href="/home">Go to Home</Link>
-				</button>
+				<Link href="/home">
+					<button className="bg-red-500 hover:bg-red-600 focus:outline-none rounded-xl shadow-lg my-2 px-4 py-2 text-white text-bold">
+						Go to Home
+					</button>
+				</Link>
 			</div>
 		</header>
 	);
