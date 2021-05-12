@@ -48,7 +48,7 @@ model User {
   updatedAt     DateTime  @default(now()) @map("updated_at")
 
   //Magikarp
-  classes ClassEnrollment[]
+  enrollment ClassEnrollment[]
 
   @@map(name: "users")
 }
@@ -57,13 +57,13 @@ model Class {
   id          String            @id @default(cuid())
   name        String
   description String?
-  members     ClassEnrollment[]
+  enrollment  ClassEnrollment[]
 
   @@map(name: "classes")
 }
 
 model ClassEnrollment {
-  role String
+  role ClassRoles
 
   user    User   @relation(fields: [userId], references: [id])
   userId  String @map("user_id")
@@ -72,4 +72,9 @@ model ClassEnrollment {
 
   @@id([userId, classId])
   @@map(name: "class_enrollment")
+}
+
+enum ClassRoles {
+  STUDENT
+  TEACHER
 }

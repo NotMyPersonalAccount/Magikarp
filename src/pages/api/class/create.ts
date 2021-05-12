@@ -2,7 +2,7 @@ import withJoi from "../../../middleware/withJoi";
 import Joi from "joi";
 import { NextApiRequest, NextApiResponse } from "next";
 import withSession from "../../../middleware/withSession";
-import { PrismaClient } from "@prisma/client";
+import { ClassRoles } from "@prisma/client";
 import { Session } from "next-auth";
 import prisma from "../../../prisma/prisma";
 
@@ -17,14 +17,14 @@ export default withJoi(
 			data: {
 				name: req.body.name,
 				description: req.body.description,
-				members: {
+				enrollment: {
 					create: {
 						user: {
 							connect: {
 								id
 							}
 						},
-						role: "teacher"
+						role: ClassRoles.TEACHER
 					}
 				}
 			}
