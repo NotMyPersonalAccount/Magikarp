@@ -2,8 +2,7 @@ import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
 import prisma from "../../prisma/prisma";
 import { getSession } from "next-auth/client";
-import { ClassRoles } from "@prisma/client";
-import Link from "next/link";
+import ClassCard from "../../components/home/ClassCard";
 
 export default function Home(props): ReactElement {
 	return (
@@ -15,23 +14,7 @@ export default function Home(props): ReactElement {
 						enrollment => enrollment.role === ClassRoles.TEACHER
 					).user;
 					return (
-						<div
-							key={_class.id}
-							className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
-							<div className="rounded-lg shadow-lg overflow-hidden">
-								<div className="m-4">
-									<Link href={`/class/${_class.id}`}>
-										<a className="text-lg">{_class.name}</a>
-									</Link>
-									<p>{_class.description}</p>
-									<p>{teacher.name}</p>
-								</div>
-								<img
-									className="rounded-full h-10 w-10 float-right m-3"
-									src={teacher.image}
-								/>
-							</div>
-						</div>
+						<ClassCard key={enrollment.class.id} class={enrollment.class} />
 					);
 				})}
 			</div>
