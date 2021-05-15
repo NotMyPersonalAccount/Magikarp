@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { useSession, signIn, signOut } from "next-auth/client";
+import Button from "./Button";
 
 export default function Navbar(): ReactElement {
 	const [session, loading] = useSession();
@@ -15,11 +16,9 @@ export default function Navbar(): ReactElement {
 					onClick={() => signOut()} //TODO: Quit being lazy and make a menu for settings/sign out
 				/>
 			) : (
-				<button
-					className="bg-red-500 hover:bg-red-600 focus:outline-none rounded-xl shadow-lg px-4 py-2 ml-auto mr-4 my-2 text-white text-bold"
-					onClick={() => signIn("google")}>
+				<Button className="ml-auto mr-4 my-2" onClick={() => signIn("google")}>
 					Login
-				</button>
+				</Button>
 			)}
 		</nav>
 	);

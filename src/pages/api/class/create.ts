@@ -12,24 +12,25 @@ export default withJoi(
 		res: NextApiResponse,
 		session: Session
 	) {
-		const { id } = session.user;
-		await prisma.class.create({
-			data: {
-				name: req.body.name,
-				description: req.body.description,
-				enrollment: {
-					create: {
-						user: {
-							connect: {
-								id
-							}
-						},
-						role: ClassRoles.TEACHER
+		return res.status(200).send(
+			await prisma.classEnrollment.create({
+				data: {
+					role: ClassRoles.TEACHER,
+					user: {
+						connect: { id: session.user.id }
+					},
+					class: {
+						create: {
+							name: req.body.name,
+							description: req.body.description
+						}
 					}
+				},
+				include: {
+					class: { include: { enrollment: { include: { user: true } } } }
 				}
-			}
-		});
-		return res.status(200).send("OK");
+			})
+		);
 	}),
 	Joi.object({
 		name: Joi.string().min(1).max(32).required(),

@@ -6,12 +6,10 @@ export default function withJoi(
 	schema: ObjectSchema
 ) {
 	return async (req: NextApiRequest, res: NextApiResponse) => {
-		if (req.method !== "POST") {
+		if (req.method !== "POST")
 			return res.status(405).send("Expected POST method");
-		}
-		if (schema.validate(req.body).error) {
-			return res.status(422).send("Invalid payload");
-		}
+		const error = schema.validate(req.body).error;
+		if (error) return res.status(422).send(error.message);
 		return handler(req, res);
 	};
 }
