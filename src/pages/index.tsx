@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import Link from "next/link";
+import Button from "../components/Button";
 
 export default function Home(): ReactElement {
 	return (
@@ -19,9 +20,7 @@ export default function Home(): ReactElement {
 					moron with terrible design choices.
 				</p>
 				<Link href="/home">
-					<button className="bg-red-500 hover:bg-red-600 focus:outline-none rounded-xl shadow-lg my-2 px-4 py-2 text-white text-bold">
-						Go to Home
-					</button>
+					<Button className="my-2">Go to Home</Button>
 				</Link>
 			</div>
 		</header>
