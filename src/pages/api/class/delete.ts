@@ -30,6 +30,7 @@ export default withJoi(
 			.status(200)
 			.send(
 				await prisma.$transaction([
+					prisma.classPost.deleteMany({ where: { classId: id } }),
 					prisma.classEnrollment.deleteMany({ where: { classId: id } }),
 					prisma.class.delete({ where: { id } })
 				])

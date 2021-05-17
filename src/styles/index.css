@@ -1,0 +1,7 @@
+.post-long-timestamp {
+	display: none;
+}
+
+.post-short-timestamp:hover .post-long-timestamp {
+	display: initial;
+}
