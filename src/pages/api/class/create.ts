@@ -1,23 +1,22 @@
 import withJoi from "../../../middleware/withJoi";
 import Joi from "joi";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import withSession from "../../../middleware/withSession";
 import { ClassRoles } from "@prisma/client";
-import { Session } from "next-auth";
 import prisma from "../../../prisma/prisma";
+import { APIRequestWithSession } from "../../../types/request";
 
 export default withJoi(
 	withSession(async function handler(
-		req: NextApiRequest,
-		res: NextApiResponse,
-		session: Session
+		req: APIRequestWithSession,
+		res: NextApiResponse
 	) {
 		return res.status(200).send(
 			await prisma.classEnrollment.create({
 				data: {
 					role: ClassRoles.TEACHER,
 					user: {
-						connect: { id: session.user.id }
+						connect: { id: req.session.user.id }
 					},
 					class: {
 						create: {

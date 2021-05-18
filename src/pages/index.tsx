@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Link from "next/link";
 import Button from "../components/Button";
 
@@ -20,7 +20,9 @@ export default function Home(): ReactElement {
 					moron with terrible design choices.
 				</p>
 				<Link href="/home">
-					<Button className="my-2">Go to Home</Button>
+					<a>
+						<Button>Go Home</Button>
+					</a>
 				</Link>
 			</div>
 		</header>

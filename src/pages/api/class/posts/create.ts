@@ -1,35 +1,26 @@
 import withJoi from "../../../../middleware/withJoi";
-import withSession from "../../../../middleware/withSession";
 import Joi from "joi";
-import { NextApiRequest, NextApiResponse } from "next";
-import { Session } from "next-auth";
+import { NextApiResponse } from "next";
 import prisma from "../../../../prisma/prisma";
+import { APIRequestWithClass } from "../../../../types/request";
+import withClass from "../../../../middleware/withClass";
 
 export default withJoi(
-	withSession(async function handler(
-		req: NextApiRequest,
-		res: NextApiResponse,
-		session: Session
+	withClass(async function handler(
+		req: APIRequestWithClass,
+		res: NextApiResponse
 	) {
-		const { class_id } = req.body;
-
-		const _class = await prisma.class.findFirst({
-			where: { id: class_id },
-			include: { enrollment: true }
-		});
-		if (_class === null) return res.status(404).send("Class does not exist");
-
-		const enrollment = _class.enrollment.find(
-			e => e.userId === session.user.id
+		const enrollment = req.class.enrollment.find(
+			e => e.userId === req.session.user.id
 		);
 		if (enrollment === null) return res.status(401).send("Must be in class");
 
 		return res.status(200).send(
-			await prisma.classPost.create({
+			await prisma.classPosts.create({
 				data: {
 					content: req.body.content,
-					class: { connect: { id: class_id } },
-					user: { connect: { id: session.user.id } }
+					class: { connect: { id: req.class.id } },
+					user: { connect: { id: req.session.user.id } }
 				},
 				include: { user: true }
 			})

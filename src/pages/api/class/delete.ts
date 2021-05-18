@@ -1,27 +1,19 @@
-import withSession from "../../../middleware/withSession";
 import withJoi from "../../../middleware/withJoi";
 import Joi from "joi";
-import { NextApiRequest, NextApiResponse } from "next";
-import { Session } from "next-auth";
+import { NextApiResponse } from "next";
 import prisma from "../../../prisma/prisma";
 import { ClassRoles } from "@prisma/client";
+import { APIRequestWithClass } from "../../../types/request";
+import withClass from "../../../middleware/withClass";
 
 export default withJoi(
-	withSession(async function handler(
-		req: NextApiRequest,
-		res: NextApiResponse,
-		session: Session
+	withClass(async function handler(
+		req: APIRequestWithClass,
+		res: NextApiResponse
 	) {
-		const { id } = req.body;
-
-		const _class = await prisma.class.findFirst({
-			where: { id },
-			include: { enrollment: true }
-		});
-		if (_class === null) return res.status(404).send("Class does not exist");
-
-		const enrollment = _class.enrollment.find(
-			e => e.userId === session.user.id
+		const classId = req.class.id;
+		const enrollment = req.class.enrollment.find(
+			e => e.userId === req.session.user.id
 		);
 		if (enrollment === null || enrollment.role !== ClassRoles.TEACHER)
 			return res.status(401).send("Must be teacher");
@@ -30,9 +22,9 @@ export default withJoi(
 			.status(200)
 			.send(
 				await prisma.$transaction([
-					prisma.classPost.deleteMany({ where: { classId: id } }),
-					prisma.classEnrollment.deleteMany({ where: { classId: id } }),
-					prisma.class.delete({ where: { id } })
+					prisma.classPosts.deleteMany({ where: { classId } }),
+					prisma.classEnrollment.deleteMany({ where: { classId } }),
+					prisma.class.delete({ where: { id: classId } })
 				])
 			);
 	}),
