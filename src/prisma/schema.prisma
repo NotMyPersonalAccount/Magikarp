@@ -60,6 +60,7 @@ model Class {
   description String?
   enrollment  ClassEnrollment[]
   posts       ClassPosts[]
+  invites     ClassInvites[]
 
   @@map(name: "classes")
 }
@@ -88,6 +89,19 @@ model ClassPosts {
   classId String @map("class_id")
 
   @@map(name: "class_posts")
+}
+
+model ClassInvites {
+  id String @id @default(cuid())
+
+  used      Int       @default(0)
+  limit     Int?
+  expiresAt DateTime? @map("expires_at")
+
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String @map("class_id")
+
+  @@map(name: "class_invites")
 }
 
 enum ClassRoles {
