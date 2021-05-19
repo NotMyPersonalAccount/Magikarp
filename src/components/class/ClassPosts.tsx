@@ -1,8 +1,9 @@
 import { ReactElement, useState } from "react";
 import dayjs from "dayjs";
 import Button from "../Button";
+import { ClassPostsProps } from "../../types/props";
 
-export default function ClassPosts(props): ReactElement {
+export default function ClassPosts(props: ClassPostsProps): ReactElement {
 	const [posts, setPosts] = useState(props.class.posts);
 	const [postContent, setPostContent] = useState("");
 

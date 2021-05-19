@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
+import { ButtonProps } from "../types/props";
 
-export default function Button(props): ReactElement {
+export default function Button(props: ButtonProps): ReactElement {
 	return (
 		<button
 			onClick={props.onClick}

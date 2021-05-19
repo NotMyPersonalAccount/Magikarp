@@ -1,11 +1,14 @@
 import { ReactElement } from "react";
 import Link from "next/link";
 import { ClassRoles } from "@prisma/client";
+import { ClassCardProps } from "../../types/props";
 
-export default function ClassCard({ class: _class }): ReactElement {
+export default function ClassCard(props: ClassCardProps): ReactElement {
+	const _class = props.class;
 	const teacher = _class.enrollment.find(
 		enrollment => enrollment.role === ClassRoles.TEACHER
 	).user;
+
 	return (
 		<div
 			key={_class.id}

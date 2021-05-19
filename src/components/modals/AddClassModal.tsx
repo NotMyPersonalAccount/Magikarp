@@ -2,8 +2,9 @@ import { ReactElement, useState } from "react";
 import Modal from "./Modal";
 import Button from "../Button";
 import FormInput from "../FormInput";
+import { AddClassModalProps } from "../../types/props";
 
-export default function AddClassModal(props): ReactElement {
+export default function AddClassModal(props: AddClassModalProps): ReactElement {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [error, setError] = useState("");

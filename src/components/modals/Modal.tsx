@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
+import { ModalProps } from "../../types/props";
 
-export default function Modal(props): ReactElement {
+export default function Modal(props: ModalProps): ReactElement {
 	return (
 		props.isOpen && (
 			<div className="fixed top-0 left-0 w-full h-full bg-white bg-opacity-50">
