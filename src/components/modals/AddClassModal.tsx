@@ -3,6 +3,7 @@ import Modal from "./Modal";
 import Button from "../Button";
 import FormInput from "../FormInput";
 import { AddClassModalProps } from "../../types/props";
+import { post } from "../../utils/fetch";
 
 export default function AddClassModal(props: AddClassModalProps): ReactElement {
 	const [name, setName] = useState("");
@@ -18,7 +19,9 @@ export default function AddClassModal(props: AddClassModalProps): ReactElement {
 				<FormInput label="Description" onChange={setDescription} />
 			</form>
 			<div className="float-right">
-				<Button className="m-1" onClick={submitting ? null : props.close}>
+				<Button
+					className="m-1"
+					onClick={submitting ? null : props.close}>
 					Close
 				</Button>
 				<Button
@@ -26,15 +29,10 @@ export default function AddClassModal(props: AddClassModalProps): ReactElement {
 					onClick={async () => {
 						if (!submitting) {
 							setSubmitting(true);
-							const response = await fetch("/api/class/create", {
-								method: "POST",
-								headers: {
-									"Content-Type": "application/json"
-								},
-								body: JSON.stringify({
-									name,
-									description: description === "" ? undefined : description
-								})
+							const response = await post("/api/class/create", {
+								name,
+								description:
+									description === "" ? undefined : description
 							});
 							if (response.status !== 200) {
 								setError(await response.text());

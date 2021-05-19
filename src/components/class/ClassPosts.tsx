@@ -2,6 +2,7 @@ import { ReactElement, useState } from "react";
 import dayjs from "dayjs";
 import Button from "../Button";
 import { ClassPostsProps } from "../../types/props";
+import { post } from "../../utils/fetch";
 
 export default function ClassPosts(props: ClassPostsProps): ReactElement {
 	const [posts, setPosts] = useState(props.class.posts);
@@ -19,14 +20,13 @@ export default function ClassPosts(props: ClassPostsProps): ReactElement {
 				<Button
 					onClick={async () => {
 						if (postContent.trim() !== "") {
-							const response = await fetch("/api/class/posts/create", {
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({
+							const response = await post(
+								"/api/class/posts/create",
+								{
 									class_id: props.class.id,
 									content: postContent
-								})
-							});
+								}
+							);
 							setPostContent("");
 							if (response.status === 200)
 								setPosts([...posts, await response.json()]);
