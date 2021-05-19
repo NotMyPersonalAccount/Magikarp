@@ -2,6 +2,8 @@ import { GetServerSideProps } from "next";
 import { ReactElement } from "react";
 import prisma from "../../prisma/prisma";
 import ClassPosts from "../../components/class/ClassPosts";
+import { getSession } from "next-auth/client";
+import { requestLogin, sendError } from "../../utils/error_handling";
 
 export default function Class(props): ReactElement {
 	return (
@@ -17,9 +19,9 @@ export default function Class(props): ReactElement {
 }
 
 export const getServerSideProps: GetServerSideProps<object, { id: string }> =
-	async ({ params }) => {
+	async ({ params, req }) => {
 		if (params.id.length !== 25)
-			throw new Error("IDs must be 25 characters in length");
+			return sendError("The provided ID must be 25 characters in length.");
 
 		const _class = await prisma.class.findFirst({
 			where: { id: params.id },
@@ -28,7 +30,17 @@ export const getServerSideProps: GetServerSideProps<object, { id: string }> =
 				posts: { include: { user: true } }
 			}
 		});
-		if (_class === null) throw new Error("Class does not exist");
+		if (_class === null)
+			return sendError("The requested class does not exist.");
+
+		const session = await getSession({ req });
+		if (!session) return requestLogin();
+		if (
+			!_class.enrollment.find(
+				enrollment => enrollment.userId === session.user.id
+			)
+		)
+			return sendError("You are not a member of the requested class.");
 
 		return { props: { class: JSON.parse(JSON.stringify(_class)) } };
 	};

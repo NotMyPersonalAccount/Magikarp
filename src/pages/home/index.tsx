@@ -4,6 +4,7 @@ import prisma from "../../prisma/prisma";
 import { getSession } from "next-auth/client";
 import ClassCard from "../../components/home/ClassCard";
 import AddClassModal from "../../components/modals/AddClassModal";
+import { requestLogin } from "../../utils/error_handling";
 
 export default function Home(props): ReactElement {
 	const [enrollment, setEnrollment] = useState(props.enrollment);
@@ -34,7 +35,7 @@ export default function Home(props): ReactElement {
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	const session = await getSession({ req });
-	if (session === null) throw new Error("Must be logged in");
+	if (!session) return requestLogin();
 
 	const enrollment = await prisma.classEnrollment.findMany({
 		where: { userId: session.user.id },
