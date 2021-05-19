@@ -4,8 +4,9 @@ import prisma from "../../prisma/prisma";
 import ClassPosts from "../../components/class/ClassPosts";
 import { getSession } from "next-auth/client";
 import { requestLogin, sendError } from "../../utils/error_handling";
+import { ClassHolder } from "../../types/props";
 
-export default function Class(props): ReactElement {
+export default function Class(props: ClassHolder): ReactElement {
 	return (
 		<>
 			<header className="bg-red-200 max-w-screen-lg xl:max-w-screen-xl mx-auto my-4 pb-12">

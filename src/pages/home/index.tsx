@@ -5,8 +5,9 @@ import { getSession } from "next-auth/client";
 import ClassCard from "../../components/home/ClassCard";
 import AddClassModal from "../../components/modals/AddClassModal";
 import { requestLogin } from "../../utils/error_handling";
+import { HomePageProps } from "../../types/props";
 
-export default function Home(props): ReactElement {
+export default function Home(props: HomePageProps): ReactElement {
 	const [enrollment, setEnrollment] = useState(props.enrollment);
 	const [addingClass, setAddingClass] = useState(false);
 

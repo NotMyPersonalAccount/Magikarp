@@ -1,10 +1,10 @@
 import { ReactElement, useState } from "react";
 import dayjs from "dayjs";
 import Button from "../Button";
-import { ClassPostsProps } from "../../types/props";
+import { ClassHolder } from "../../types/props";
 import { post } from "../../utils/fetch";
 
-export default function ClassPosts(props: ClassPostsProps): ReactElement {
+export default function ClassPosts(props: ClassHolder): ReactElement {
 	const [posts, setPosts] = useState(props.class.posts);
 	const [postContent, setPostContent] = useState("");
 
@@ -45,17 +45,29 @@ export default function ClassPosts(props: ClassPostsProps): ReactElement {
 							className="float-left rounded-full h-10 w-10 mr-3"
 						/>
 						<div>
-							<p className="font-semibold inline mr-1">{post.user.name}</p>
+							<p className="font-semibold inline mr-1">
+								{post.user.name}
+							</p>
 							<span className="post-short-timestamp inline text-xs text-gray-600 relative">
-								{createdAt.startOf("day").isSame(dayjs().startOf("day"))
+								{createdAt
+									.startOf("day")
+									.isSame(dayjs().startOf("day"))
 									? `Today at ${createdAt.format("h:mm A")}`
 									: createdAt
 											.startOf("day")
-											.isSame(dayjs().startOf("day").subtract(1, "day"))
-									? `Yesterday at ${createdAt.format("h:mm A")}`
+											.isSame(
+												dayjs()
+													.startOf("day")
+													.subtract(1, "day")
+											)
+									? `Yesterday at ${createdAt.format(
+											"h:mm A"
+									  )}`
 									: createdAt.format("MM/DD/YYYY")}
 								<span className="post-long-timestamp absolute -top-12 w-40 left-1/2 -ml-20 bg-black text-white text-sm text-center px-2 py-1 rounded-xl">
-									{createdAt.format("dddd, MM/DD/YYYY h:mm A")}
+									{createdAt.format(
+										"dddd, MM/DD/YYYY h:mm A"
+									)}
 								</span>
 							</span>
 							<p className="break-words">{post.content}</p>

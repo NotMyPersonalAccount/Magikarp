@@ -6,7 +6,10 @@ import prisma from "../prisma/prisma";
 export default function withClass(
 	handler: (req: APIRequestWithClass, res: NextApiResponse) => void
 ) {
-	return async (req: APIRequestWithClass, res: NextApiResponse) => {
+	return async (
+		req: APIRequestWithClass,
+		res: NextApiResponse
+	): Promise<void> => {
 		return withSession(
 			async (req: APIRequestWithClass, res: NextApiResponse) => {
 				const _class = await prisma.class.findFirst({

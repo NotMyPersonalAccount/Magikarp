@@ -4,8 +4,10 @@ import Layout from "../components/Layout";
 import { Provider, signIn } from "next-auth/client";
 import CentralInfo from "../components/central/CentralInfo";
 import CentralHomeButton from "../components/central/CentralHomeButton";
+import { ReactElement } from "react";
+import { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps): ReactElement {
 	if (typeof window !== "undefined" && pageProps.request_login)
 		signIn("google");
 

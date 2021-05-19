@@ -3,7 +3,10 @@ import { getSession } from "next-auth/client";
 import { APIRequestWithSession } from "../types/request";
 
 export default function withSession(handler: (req, res) => void) {
-	return async (req: APIRequestWithSession, res: NextApiResponse) => {
+	return async (
+		req: APIRequestWithSession,
+		res: NextApiResponse
+	): Promise<void> => {
 		const session = await getSession({ req });
 		if (session === null) {
 			return res.status(401).send("Unauthorized access");
