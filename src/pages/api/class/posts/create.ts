@@ -13,7 +13,7 @@ export default withJoi(
 		const enrollment = req.class.enrollment.find(
 			e => e.userId === req.session.user.id
 		);
-		if (enrollment === null) return res.status(401).send("Must be in class");
+		if (!enrollment) return res.status(401).send("Must be in class");
 
 		return res.status(200).send(
 			await prisma.classPosts.create({

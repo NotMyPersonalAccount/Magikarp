@@ -15,7 +15,7 @@ export default withJoi(
 		const enrollment = req.class.enrollment.find(
 			e => e.userId === req.session.user.id
 		);
-		if (enrollment === null || enrollment.role !== ClassRoles.TEACHER)
+		if (enrollment?.role !== ClassRoles.TEACHER)
 			return res.status(401).send("Must be teacher");
 
 		return res
