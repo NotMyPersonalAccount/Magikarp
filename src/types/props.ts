@@ -6,14 +6,15 @@ import {
 	ClassPosts as OriginalClassPosts,
 	User
 } from "@prisma/client";
+import { ParsedUrlQuery } from "querystring";
 
 export interface LayoutProps {
 	children: ReactNode;
 }
 
 export interface ModalProps extends LayoutProps {
-	isOpen: boolean;
 	title: string;
+	isOpen: boolean;
 }
 
 export interface AddClassModalProps {
@@ -23,9 +24,9 @@ export interface AddClassModalProps {
 }
 
 export interface ButtonProps extends LayoutProps {
-	onClick?: MouseEventHandler<HTMLButtonElement>;
 	className?: string;
 	disabled?: boolean;
+	onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface FormInputProps {
@@ -39,6 +40,14 @@ export interface HomePageProps {
 
 export interface InvitePageProps {
 	invite: ClassInvites;
+}
+
+export interface SSRClassPageParams extends ParsedUrlQuery {
+	id: string;
+}
+
+export interface SSRInvitePageParams extends ParsedUrlQuery {
+	invite: string;
 }
 
 export interface SSRErrorProps {

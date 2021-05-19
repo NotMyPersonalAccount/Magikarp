@@ -1,6 +1,6 @@
 export async function post(
 	url: string,
-	data: Record<string, any>
+	data: Record<string, unknown>
 ): Promise<Response> {
 	return fetch(url, {
 		method: "POST",

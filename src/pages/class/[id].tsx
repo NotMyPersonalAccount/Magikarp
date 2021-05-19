@@ -4,7 +4,7 @@ import prisma from "../../prisma/prisma";
 import ClassPosts from "../../components/class/ClassPosts";
 import { getSession } from "next-auth/client";
 import { requestLogin, sendError } from "../../utils/error_handling";
-import { ClassHolder } from "../../types/props";
+import { ClassHolder, SSRClassPageParams } from "../../types/props";
 
 export default function Class(props: ClassHolder): ReactElement {
 	return (
@@ -19,29 +19,31 @@ export default function Class(props: ClassHolder): ReactElement {
 	);
 }
 
-export const getServerSideProps: GetServerSideProps<object, { id: string }> =
-	async ({ params, req }) => {
-		if (params.id.length !== 25)
-			return sendError("The provided ID must be 25 characters in length.");
+export const getServerSideProps: GetServerSideProps<
+	Record<string, unknown>,
+	SSRClassPageParams
+> = async ({ params, req }) => {
+	if (params.id.length !== 25)
+		return sendError("The provided ID must be 25 characters in length.");
 
-		const _class = await prisma.class.findFirst({
-			where: { id: params.id },
-			include: {
-				enrollment: { include: { user: true } },
-				posts: { include: { user: true } }
-			}
-		});
-		if (_class === null)
-			return sendError("The requested class does not exist.");
+	const _class = await prisma.class.findFirst({
+		where: { id: params.id },
+		include: {
+			enrollment: { include: { user: true } },
+			posts: { include: { user: true } }
+		}
+	});
+	if (_class === null)
+		return sendError("The requested class does not exist.");
 
-		const session = await getSession({ req });
-		if (!session) return requestLogin();
-		if (
-			!_class.enrollment.find(
-				enrollment => enrollment.userId === session.user.id
-			)
+	const session = await getSession({ req });
+	if (!session) return requestLogin();
+	if (
+		!_class.enrollment.find(
+			enrollment => enrollment.userId === session.user.id
 		)
-			return sendError("You are not a member of the requested class.");
+	)
+		return sendError("You are not a member of the requested class.");
 
-		return { props: { class: JSON.parse(JSON.stringify(_class)) } };
-	};
+	return { props: { class: JSON.parse(JSON.stringify(_class)) } };
+};

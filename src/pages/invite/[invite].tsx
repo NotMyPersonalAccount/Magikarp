@@ -7,7 +7,7 @@ import CentralHomeButton from "../../components/central/CentralHomeButton";
 import { useRouter } from "next/router";
 import CentralInfo from "../../components/central/CentralInfo";
 import { post } from "../../utils/fetch";
-import { InvitePageProps } from "../../types/props";
+import { InvitePageProps, SSRInvitePageParams } from "../../types/props";
 
 export default function Invite(props: InvitePageProps): ReactElement {
 	const router = useRouter();
@@ -73,8 +73,8 @@ export default function Invite(props: InvitePageProps): ReactElement {
 }
 
 export const getServerSideProps: GetServerSideProps<
-	object,
-	{ invite: string }
+	Record<string, unknown>,
+	SSRInvitePageParams
 > = async ({ params }) => {
 	return {
 		props: {
