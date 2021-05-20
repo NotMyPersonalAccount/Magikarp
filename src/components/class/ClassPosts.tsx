@@ -7,6 +7,7 @@ import { post } from "../../utils/fetch";
 export default function ClassPosts(props: ClassHolder): ReactElement {
 	const [posts, setPosts] = useState(props.class.posts);
 	const [postContent, setPostContent] = useState("");
+	const [posting, setPosting] = useState(false);
 
 	return (
 		<>
@@ -19,7 +20,8 @@ export default function ClassPosts(props: ClassHolder): ReactElement {
 				/>
 				<Button
 					onClick={async () => {
-						if (postContent.trim() !== "") {
+						if (postContent.trim() !== "" && !posting) {
+							setPosting(true);
 							const response = await post(
 								"/api/class/posts/create",
 								{
@@ -28,6 +30,7 @@ export default function ClassPosts(props: ClassHolder): ReactElement {
 								}
 							);
 							setPostContent("");
+							setPosting(false);
 							if (response.status === 200)
 								setPosts([...posts, await response.json()]);
 						}
