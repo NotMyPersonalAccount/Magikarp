@@ -12,20 +12,22 @@ export default function ClassCard(props: ClassHolder): ReactElement {
 	return (
 		<div
 			key={_class.id}
-			className="my-1 px-1 w-full md:w-1/3 lg:my-4 lg:px-4 lg:w-1/4">
-			<div className="rounded-lg shadow-lg overflow-hidden">
-				<div className="m-4">
-					<Link href={`/class/${_class.id}`}>
-						<a className="text-lg">{_class.name}</a>
-					</Link>
-					<p>{_class.description}</p>
-					<p>{teacher.name}</p>
-				</div>
-				<img
-					className="rounded-full h-10 w-10 float-right m-3"
-					src={teacher.image}
-				/>
+			className="flex mb-4 mr-2 lg:mr-4 p-4 bg-red-50 rounded-lg shadow-lg hover:shadow-xl w-80 h-40 transform hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out">
+			<div className="flex-grow min-w-0">
+				<Link href={`/class/${_class.id}`}>
+					<a className="text-xl">
+						<p className="overflow-ellipsis overflow-hidden whitespace-nowrap">
+							{_class.name}
+						</p>
+					</a>
+				</Link>
+				<p>{_class.description}</p>
+				<p>{teacher.name}</p>
 			</div>
+			<img
+				className="self-end rounded-full h-10 w-10 m-2"
+				src={teacher.image}
+			/>
 		</div>
 	);
 }
