@@ -12,7 +12,7 @@ export default function AddClassModal(props: AddClassModalProps): ReactElement {
 	const [submitting, setSubmitting] = useState(false);
 
 	return (
-		<Modal isOpen={props.isOpen} title="Add New Class">
+		<Modal title="Add New Class">
 			{error && <p className="text-red-400 text-lg">{error}</p>}
 			<form className="my-2">
 				<FormInput label="Name" onChange={setName} />
