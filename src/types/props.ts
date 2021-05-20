@@ -14,12 +14,15 @@ export interface LayoutProps {
 
 export interface ModalProps extends LayoutProps {
 	title: string;
-	isOpen: boolean;
 }
 
 export interface AddClassModalProps {
-	isOpen: boolean;
 	addClass: (enrollment: ClassEnrollment) => void;
+	close: () => void;
+}
+
+export interface InviteModalProps {
+	class: Class;
 	close: () => void;
 }
 
@@ -33,6 +36,8 @@ export interface FormInputProps {
 	label: string;
 	onChange: (value: string) => void;
 }
+
+export interface FormSelectProps extends FormInputProps, LayoutProps {}
 
 export interface HomePageProps {
 	enrollment: ClassEnrollment[];
@@ -62,14 +67,16 @@ export interface SSRRequestLoginProps {
 	};
 }
 
-type Class = OriginalClass & {
+export type Class = OriginalClass & {
 	enrollment: ClassEnrollment[];
 	posts: ClassPosts[];
 	invites: ClassInvites[];
 };
-type ClassEnrollment = OriginalClassEnrollment & ClassHolder & UserHolder;
-type ClassPosts = OriginalClassPosts & ClassHolder & UserHolder;
-type ClassInvites = OriginalClassInvites & ClassHolder;
+export type ClassEnrollment = OriginalClassEnrollment &
+	ClassHolder &
+	UserHolder;
+export type ClassPosts = OriginalClassPosts & ClassHolder & UserHolder;
+export type ClassInvites = OriginalClassInvites & ClassHolder;
 
 export interface ClassHolder {
 	class: Class;

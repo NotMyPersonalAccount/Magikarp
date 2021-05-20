@@ -6,6 +6,10 @@ import CentralInfo from "../components/central/CentralInfo";
 import CentralHomeButton from "../components/central/CentralHomeButton";
 import { ReactElement } from "react";
 import { AppProps } from "next/app";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
 	if (typeof window !== "undefined" && pageProps.request_login)

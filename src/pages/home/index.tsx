@@ -23,13 +23,14 @@ export default function Home(props: HomePageProps): ReactElement {
 				onClick={() => setAddingClass(true)}>
 				<span>+</span>
 			</div>
-			<AddClassModal
-				isOpen={addingClass}
-				addClass={newEnrollment => {
-					setEnrollment(e => [...e, newEnrollment]);
-				}}
-				close={() => setAddingClass(false)}
-			/>
+			{addingClass && (
+				<AddClassModal
+					addClass={newEnrollment => {
+						setEnrollment(e => [...e, newEnrollment]);
+					}}
+					close={() => setAddingClass(false)}
+				/>
+			)}
 		</div>
 	);
 }

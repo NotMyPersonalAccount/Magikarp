@@ -5,6 +5,7 @@ import { APIRequestWithClass } from "../../../../types/request";
 import withClass from "../../../../middleware/withClass";
 import { ClassRoles } from "@prisma/client";
 import prisma from "../../../../prisma/prisma";
+import dayjs from "dayjs";
 
 export default withJoi(
 	withClass(async function handler(
@@ -24,7 +25,9 @@ export default withJoi(
 						connect: { id: req.body.class_id }
 					},
 					limit: req.body.limit,
-					expiresAt: req.body.expires_at
+					expiresAt: req.body.duration
+						? dayjs().add(req.body.duration, "minutes").toDate()
+						: undefined
 				}
 			})
 		);
@@ -32,6 +35,6 @@ export default withJoi(
 	Joi.object({
 		class_id: Joi.string().length(25).required(),
 		limit: Joi.number(),
-		expires_at: Joi.date().iso().greater("now")
+		duration: Joi.number().valid(30, 60, 360, 720, 1440, 10080)
 	})
 );

@@ -1,20 +1,41 @@
 import { GetServerSideProps } from "next";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import prisma from "../../prisma/prisma";
 import ClassPosts from "../../components/class/ClassPosts";
-import { getSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import { requestLogin, sendError } from "../../utils/error_handling";
 import { ClassHolder, SSRClassPageParams } from "../../types/props";
+import { ClassRoles } from "@prisma/client";
+import Button from "../../components/Button";
+import InviteModal from "../../components/modals/InviteModal";
 
 export default function Class(props: ClassHolder): ReactElement {
+	const [session] = useSession();
+	const [inviteModal, setInviteModal] = useState(false);
+
 	return (
 		<>
 			<header className="bg-red-200 max-w-screen-lg xl:max-w-screen-xl mx-auto my-4 pb-12">
 				<h1 className="p-4 text-3xl text-white">{props.class.name}</h1>
+				{props.class.enrollment.find(
+					e => e.userId === session?.user?.id
+				)?.role === ClassRoles.TEACHER && (
+					<Button
+						className="ml-4"
+						onClick={() => setInviteModal(true)}>
+						Invite
+					</Button>
+				)}
 			</header>
 			<section className="max-w-screen-lg xl:max-w-screen-xl mx-auto">
 				<ClassPosts class={props.class} />
 			</section>
+			{inviteModal && (
+				<InviteModal
+					close={() => setInviteModal(false)}
+					class={props.class}
+				/>
+			)}
 		</>
 	);
 }
@@ -29,6 +50,7 @@ export const getServerSideProps: GetServerSideProps<
 	const _class = await prisma.class.findFirst({
 		where: { id: params.id },
 		include: {
+			invites: true,
 			enrollment: { include: { user: true } },
 			posts: { include: { user: true } }
 		}
