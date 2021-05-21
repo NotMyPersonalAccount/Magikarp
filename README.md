@@ -31,6 +31,8 @@ Magikarp, a very useless & very bad project named after a very useless & very ba
 | [NextAuth.js](https://next-auth.js.org/)                   | Authentication for Next.js     | Extremely overkill — bundled with 45 auth providers, we only use Google |
 | [PostgreSQL](https://www.postgresql.org/)                  | Database                       | Prisma also supports MySQL & SQLite — We enforce PostgreSQL             |
 | [Prisma](https://www.prisma.io/)                           | Object Relational Mapping      |                                                                         |
+| [zustand](https://zustand.surge.sh/)                       | State Management               |                                                                         |
+| [Sass](https://sass-lang.com/)                             | Stylesheets                    |                                                                         |
 | [Tailwind CSS](https://tailwindcss.com/)                   | CSS Utility Classes            |                                                                         |
 | [Day.js](https://day.js.org/)                              | Date/Time JS Utilities         |                                                                         |
 | [joi](https://joi.dev/)                                    | Schema Validation              |                                                                         |
