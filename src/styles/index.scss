@@ -11,15 +11,15 @@
 }
 
 .navbar-link {
-	@apply bg-gray-100 rounded-lg p-2;
+	@apply bg-gray-100 hover:bg-gray-200 rounded-lg p-2;
+}
 
-	:not(:first-child) {
-		@apply ml-1;
-	}
+.navbar-link:not(:first-child) {
+	@apply ml-2;
 }
 
 .form-input {
-	@apply w-full rounded-lg border-solid border-2 border-blue-400 focus:border-blue-500 outline-none;
+	@apply w-full rounded-lg border-solid border-2 border-gray-200 hover:border-gray-300 focus:border-blue-400 outline-none;
 }
 
 textarea {

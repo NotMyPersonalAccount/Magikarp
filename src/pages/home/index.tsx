@@ -19,7 +19,7 @@ export default function Home(props: HomePageProps): ReactElement {
 				})}
 			</div>
 			<div
-				className="flex flex-wrap content-center justify-center cursor-pointer rounded-full w-10 h-10 bg-gray-100 mt-2"
+				className="flex flex-wrap content-center justify-center cursor-pointer rounded-full w-10 h-10 bg-gray-100 hover:bg-gray-200 mt-2"
 				onClick={() => setAddingClass(true)}>
 				<span>+</span>
 			</div>
