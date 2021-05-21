@@ -13,10 +13,12 @@ export default function AttendanceStudentView(
 	const [note, setNote] = useState("");
 	const [synchronous, setSynchronous] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
+	const [error, setError] = useState("");
 
 	return (
 		<div className="m-4">
 			<h1 className="text-xl my-4">Checkin</h1>
+			{error && <p className="text-red-400 text-lg">{error}</p>}
 			<form>
 				<FormInput label="Note" onChange={setNote} />
 				<FormSelect
@@ -43,6 +45,9 @@ export default function AttendanceStudentView(
 							const newAttendance = await response.json();
 							setAttendance(a => [...a, newAttendance]);
 							setNote("");
+							setError("");
+						} else {
+							setError(await response.text());
 						}
 						setSubmitting(false);
 					}
