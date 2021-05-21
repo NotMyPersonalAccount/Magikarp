@@ -47,7 +47,7 @@ export default function InviteModal(props: InviteModalProps): ReactElement {
 	return (
 		<Modal title={`Invite to ${props.class.name}`}>
 			<textarea
-				className="w-full h-10 rounded-lg border-solid border-2 border-gray-300 focus:border-blue-500 outline-none px-2 py-1 mt-2 resize-none"
+				className="h-10"
 				value={
 					latestInvite && !generatingInvite
 						? `${

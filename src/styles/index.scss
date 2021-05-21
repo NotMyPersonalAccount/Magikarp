@@ -6,6 +6,10 @@
 	display: initial;
 }
 
+.profile-picture {
+	@apply h-10 w-10 rounded-full;
+}
+
 .navbar-link {
 	@apply bg-gray-100 rounded-lg p-2;
 
@@ -16,4 +20,9 @@
 
 .form-input {
 	@apply w-full rounded-lg border-solid border-2 border-blue-400 focus:border-blue-500 outline-none;
+}
+
+textarea {
+	@extend .form-input;
+	@apply px-2 py-1 mr-2 resize-none;
 }

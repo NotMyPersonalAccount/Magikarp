@@ -13,7 +13,6 @@ export default function ClassPosts(props: ClassHolder): ReactElement {
 		<>
 			<div className="flex mb-5">
 				<textarea
-					className="w-full rounded-lg border-solid border-2 border-gray-300 focus:border-blue-500 outline-none px-2 py-1 mr-2 resize-none"
 					onChange={e => setPostContent(e.target.value)}
 					value={postContent}
 					placeholder="Chat with your class!"
@@ -45,7 +44,7 @@ export default function ClassPosts(props: ClassHolder): ReactElement {
 					<div className="my-2" key={post.id}>
 						<img
 							src={post.user.image}
-							className="float-left rounded-full h-10 w-10 mr-3"
+							className="profile-picture float-left mr-3"
 						/>
 						<div>
 							<p className="font-semibold inline mr-1">
