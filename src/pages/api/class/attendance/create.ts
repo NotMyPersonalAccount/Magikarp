@@ -5,6 +5,7 @@ import { ClassRoles } from "@prisma/client";
 import prisma from "../../../../prisma/prisma";
 import { APIRequestWithClass } from "../../../../types/request";
 import { NextApiResponse } from "next";
+import dayjs from "dayjs";
 
 export default withJoi(
 	withClass(async function handler(
@@ -16,6 +17,18 @@ export default withJoi(
 		);
 		if (enrollment?.role !== ClassRoles.STUDENT)
 			return res.status(401).send("Must be student");
+
+		const existingAttendance = await prisma.classAttendance.findFirst({
+			where: {
+				classId: req.class.id,
+				userId: req.session.user.id,
+				createdAt: { gte: dayjs().startOf("day").toDate() }
+			}
+		});
+		if (existingAttendance !== null)
+			return res
+				.status(429)
+				.send("Already submitted checkin to this class today");
 
 		return res.status(200).send(
 			await prisma.classAttendance.create({

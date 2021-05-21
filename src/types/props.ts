@@ -4,6 +4,7 @@ import {
 	ClassEnrollment as OriginalClassEnrollment,
 	ClassInvites as OriginalClassInvites,
 	ClassPosts as OriginalClassPosts,
+	ClassAttendance as OriginalClassAttendance,
 	User
 } from "@prisma/client";
 import { ParsedUrlQuery } from "querystring";
@@ -47,6 +48,10 @@ export interface InvitePageProps {
 	invite: ClassInvites;
 }
 
+export interface AttendancePageProps extends ClassHolder {
+	attendance: ClassAttendance[];
+}
+
 export interface SSRClassPageParams extends ParsedUrlQuery {
 	id: string;
 }
@@ -77,6 +82,9 @@ export type ClassEnrollment = OriginalClassEnrollment &
 	UserHolder;
 export type ClassPosts = OriginalClassPosts & ClassHolder & UserHolder;
 export type ClassInvites = OriginalClassInvites & ClassHolder;
+export type ClassAttendance = OriginalClassAttendance &
+	ClassHolder &
+	UserHolder;
 
 export interface ClassHolder {
 	class: Class;

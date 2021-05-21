@@ -26,3 +26,16 @@ textarea {
 	@extend .form-input;
 	@apply px-2 py-1 mr-2 resize-none;
 }
+
+table {
+	@apply w-full rounded-sm shadow-lg;
+	thead {
+		@apply bg-red-100;
+	}
+}
+
+th,
+td {
+	@apply p-2;
+	text-align: left;
+}

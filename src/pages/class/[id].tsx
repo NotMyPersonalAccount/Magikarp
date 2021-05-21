@@ -67,12 +67,11 @@ export const getServerSideProps: GetServerSideProps<
 
 	const session = await getSession({ req });
 	if (!session) return requestLogin();
-	if (
-		!_class.enrollment.find(
-			enrollment => enrollment.userId === session.user.id
-		)
-	)
+	const sessionEnrollment = _class.enrollment.find(
+		enrollment => enrollment.userId === session.user.id
+	);
+	if (!sessionEnrollment)
 		return sendError("You are not a member of the requested class.");
-
+	if (sessionEnrollment.role !== ClassRoles.TEACHER) delete _class.invites;
 	return { props: { class: JSON.parse(JSON.stringify(_class)) } };
 };
