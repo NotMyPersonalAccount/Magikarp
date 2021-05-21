@@ -23,12 +23,17 @@ export default function Class(props: ClassHolder): ReactElement {
 	return (
 		<>
 			<header className="bg-red-200 max-w-screen-lg xl:max-w-screen-xl mx-auto my-4 pb-12">
-				<h1 className="p-4 text-3xl text-white">{props.class.name}</h1>
+				<h1 className="px-4 pt-4 text-3xl text-white">
+					{props.class.name}
+				</h1>
+				<h2 className="px-4 text-xl text-white">
+					{props.class.description}
+				</h2>
 				{props.class.enrollment.find(
 					e => e.userId === session?.user?.id
 				)?.role === ClassRoles.TEACHER && (
 					<Button
-						className="ml-4"
+						className="ml-4 mt-4"
 						onClick={() => setInviteModal(true)}>
 						Invite
 					</Button>
