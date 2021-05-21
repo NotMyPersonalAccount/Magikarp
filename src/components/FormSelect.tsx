@@ -6,7 +6,7 @@ export default function FormSelect(props: FormSelectProps): ReactElement {
 		<>
 			<label className="block">{props.label}</label>
 			<select
-				className="w-full rounded-lg border-solid border-2 border-blue-400 focus:border-blue-500 outline-none"
+				className="form-input"
 				onChange={e => props.onChange(e.target.value)}>
 				{props.children}
 			</select>

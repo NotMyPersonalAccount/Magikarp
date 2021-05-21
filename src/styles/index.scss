@@ -1,0 +1,19 @@
+.post-long-timestamp {
+	display: none;
+}
+
+.post-short-timestamp:hover .post-long-timestamp {
+	display: initial;
+}
+
+.navbar-link {
+	@apply bg-gray-100 rounded-lg p-2;
+
+	:not(:first-child) {
+		@apply ml-1;
+	}
+}
+
+.form-input {
+	@apply w-full rounded-lg border-solid border-2 border-blue-400 focus:border-blue-500 outline-none;
+}

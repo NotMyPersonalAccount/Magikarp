@@ -1,5 +1,5 @@
 import "tailwindcss/tailwind.css";
-import "../styles/index.css";
+import "../styles/index.scss";
 import Layout from "../components/Layout";
 import { Provider, signIn } from "next-auth/client";
 import CentralInfo from "../components/central/CentralInfo";
