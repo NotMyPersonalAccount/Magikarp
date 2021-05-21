@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import prisma from "../../prisma/prisma";
 import ClassPosts from "../../components/class/ClassPosts";
 import { getSession, useSession } from "next-auth/client";
@@ -8,10 +8,17 @@ import { ClassHolder, SSRClassPageParams } from "../../types/props";
 import { ClassRoles } from "@prisma/client";
 import Button from "../../components/Button";
 import InviteModal from "../../components/modals/InviteModal";
+import { useNavbarStore } from "../../stores/useNavbarStore";
 
 export default function Class(props: ClassHolder): ReactElement {
 	const [session] = useSession();
 	const [inviteModal, setInviteModal] = useState(false);
+
+	const setClassId = useNavbarStore(state => state.setClassId);
+	useEffect(() => {
+		setClassId(props.class.id);
+		return () => setClassId(undefined);
+	}, [setClassId, props.class]);
 
 	return (
 		<>
@@ -27,7 +34,7 @@ export default function Class(props: ClassHolder): ReactElement {
 					</Button>
 				)}
 			</header>
-			<section className="max-w-screen-lg xl:max-w-screen-xl mx-auto">
+			<section className="max-w-screen-lg xl:max-w-screen-xl mx-auto px-3 sm:px-0">
 				<ClassPosts class={props.class} />
 			</section>
 			{inviteModal && (
