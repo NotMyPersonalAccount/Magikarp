@@ -50,6 +50,7 @@ model User {
   //Magikarp
   enrollment ClassEnrollment[]
   posts      ClassPosts[]
+  attendance ClassAttendance[]
 
   @@map(name: "users")
 }
@@ -61,6 +62,7 @@ model Class {
   enrollment  ClassEnrollment[]
   posts       ClassPosts[]
   invites     ClassInvites[]
+  attendance  ClassAttendance[]
 
   @@map(name: "classes")
 }
@@ -102,6 +104,21 @@ model ClassInvites {
   classId String @map("class_id")
 
   @@map(name: "class_invites")
+}
+
+model ClassAttendance {
+  id String @id @default(cuid())
+
+  synchronous Boolean
+  note        String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String @map("user_id")
+  class   Class  @relation(fields: [classId], references: [id])
+  classId String @map("class_id")
+
+  @@map(name: "class_attendance")
 }
 
 enum ClassRoles {
