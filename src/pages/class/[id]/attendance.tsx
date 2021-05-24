@@ -67,9 +67,7 @@ export const getServerSideProps: GetServerSideProps<
 		attendance = await prisma.classAttendance.findMany({
 			where: {
 				classId: _class.id
-			},
-			orderBy: { createdAt: "desc" },
-			take: 10
+			}
 		});
 	} else {
 		attendance = await prisma.classAttendance.findMany({
@@ -79,7 +77,9 @@ export const getServerSideProps: GetServerSideProps<
 			},
 			include: {
 				class: true
-			}
+			},
+			orderBy: { createdAt: "desc" },
+			take: 10
 		});
 	}
 	return {

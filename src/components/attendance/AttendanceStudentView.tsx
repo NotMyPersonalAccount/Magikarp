@@ -69,7 +69,9 @@ export default function AttendanceStudentView(
 							<tr key={a.id}>
 								<td>
 									{a
-										? dayjs(a.createdAt).format("h:mm a")
+										? dayjs(a.createdAt).format(
+												"MM/DD/YYYY h:mm a"
+										  )
 										: "N/A"}
 								</td>
 								<td>{a?.note || "N/A"}</td>
