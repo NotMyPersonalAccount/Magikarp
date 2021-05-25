@@ -43,7 +43,7 @@ export default function AttendanceStudentView(
 						);
 						if (response.status === 200) {
 							const newAttendance = await response.json();
-							setAttendance(a => [...a, newAttendance]);
+							setAttendance(a => [newAttendance, ...a]);
 							setNote("");
 							setError("");
 						} else {

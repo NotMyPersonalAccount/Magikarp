@@ -8,6 +8,7 @@ import { getSession, useSession } from "next-auth/client";
 import { ClassRoles } from "@prisma/client";
 import AttendanceTeacherView from "../../../components/attendance/AttendanceTeacherView";
 import AttendanceStudentView from "../../../components/attendance/AttendanceStudentView";
+import dayjs from "dayjs";
 
 export default function Attendance(props: AttendancePageProps): ReactElement {
 	const [session] = useSession();
@@ -66,7 +67,10 @@ export const getServerSideProps: GetServerSideProps<
 	if (sessionEnrollment.role === ClassRoles.TEACHER) {
 		attendance = await prisma.classAttendance.findMany({
 			where: {
-				classId: _class.id
+				classId: _class.id,
+				createdAt: {
+					gte: dayjs().startOf("day").toDate()
+				}
 			}
 		});
 	} else {
@@ -75,12 +79,10 @@ export const getServerSideProps: GetServerSideProps<
 				classId: _class.id,
 				userId: session.user.id
 			},
-			include: {
-				class: true
-			},
 			orderBy: { createdAt: "desc" },
 			take: 10
 		});
+		delete _class.enrollment;
 	}
 	return {
 		props: {
