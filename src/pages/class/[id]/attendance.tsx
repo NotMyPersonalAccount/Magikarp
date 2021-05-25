@@ -12,9 +12,7 @@ import dayjs from "dayjs";
 
 export default function Attendance(props: AttendancePageProps): ReactElement {
 	const [session] = useSession();
-	const isTeacher =
-		props.class.enrollment.find(e => e.userId === session?.user?.id)
-			?.role === ClassRoles.TEACHER;
+	const isTeacher = props.class.enrollment !== undefined;
 
 	const setClassId = useNavbarStore(state => state.setClassId);
 	useEffect(() => {
