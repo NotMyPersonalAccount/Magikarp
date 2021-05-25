@@ -6,6 +6,7 @@ import ClassCard from "../../components/home/ClassCard";
 import AddClassModal from "../../components/modals/AddClassModal";
 import { requestLogin } from "../../utils/error_handling";
 import { HomePageProps } from "../../types/props";
+import { ClassRoles } from "@prisma/client";
 
 export default function Home(props: HomePageProps): ReactElement {
 	const [enrollment, setEnrollment] = useState(props.enrollment);
@@ -42,7 +43,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	const enrollment = await prisma.classEnrollment.findMany({
 		where: { userId: session.user.id },
 		include: {
-			class: { include: { enrollment: { include: { user: true } } } }
+			class: {
+				include: {
+					enrollment: {
+						include: { user: true },
+						where: { role: ClassRoles.TEACHER }
+					}
+				}
+			}
 		}
 	});
 	return { props: { enrollment: JSON.parse(JSON.stringify(enrollment)) } };

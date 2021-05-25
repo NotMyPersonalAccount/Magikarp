@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
 import prisma from "../../prisma/prisma";
-import { useSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 import Button from "../../components/Button";
 import CentralHomeButton from "../../components/central/CentralHomeButton";
 import { useRouter } from "next/router";
@@ -18,9 +18,7 @@ export default function Invite(props: InvitePageProps): ReactElement {
 			{props.invite ? (
 				<div>
 					<h1 className="text-2xl">Classroom Invitation</h1>
-					{props.invite.class.enrollment.find(
-						enrollment => enrollment.userId === session?.user?.id
-					) ? (
+					{props.invite.class.enrollment?.[0] ? (
 						<>
 							<p>
 								You are already a member of{" "}
@@ -75,7 +73,9 @@ export default function Invite(props: InvitePageProps): ReactElement {
 export const getServerSideProps: GetServerSideProps<
 	Record<string, unknown>,
 	SSRInvitePageParams
-> = async ({ params }) => {
+> = async ({ params, req }) => {
+	const session = await getSession({ req });
+
 	return {
 		props: {
 			invite: JSON.parse(
@@ -83,7 +83,17 @@ export const getServerSideProps: GetServerSideProps<
 					await prisma.classInvites.findFirst({
 						where: { id: params.invite },
 						include: {
-							class: { include: { enrollment: true } }
+							class: {
+								include: {
+									enrollment: session
+										? {
+												where: {
+													userId: session.user.id
+												}
+										  }
+										: false
+								}
+							}
 						}
 					})
 				)
